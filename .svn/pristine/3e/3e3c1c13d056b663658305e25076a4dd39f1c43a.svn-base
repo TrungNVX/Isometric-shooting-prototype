@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class CardViewItem : MonoBehaviour
+{
+    public Text index_lb;
+    private int index;
+    // Start is called before the first frame update
+   public void SetData(int index)
+    {
+        this.index = index;
+        index_lb.text = index.ToString();
+    }
+    public void OnClick()
+    {
+        GunInfoDialogParam param = new GunInfoDialogParam {index= this.index};
+        DialogManager.instance.ShowDialog(DialogIndex.GunInfoDialog, param, ShowDialog);
+    }
+    private void ShowDialog()
+    {
+        Debug.LogError(" Show Dialog done");
+    }
+}

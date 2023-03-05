@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public enum DialogIndex
+{
+    GunInfoDialog = 0,
+    MessageDialog = 1,
+    VictoryDialog=2,
+    LoseDialog=3,
+    PauseDialog=4
+}
+public class DialogConfig
+{
+    public static DialogIndex[] dialogIndices =
+    {
+        DialogIndex.GunInfoDialog,
+        DialogIndex.MessageDialog,
+        DialogIndex.VictoryDialog,
+        DialogIndex.LoseDialog,
+        DialogIndex.PauseDialog
+    };
+}
+public class DialogParam
+{
+
+}
+public class GunInfoDialogParam : DialogParam
+{
+    public int index;
+}
+public class MessageDialogParam : DialogParam
+{
+    public string mess;
+}

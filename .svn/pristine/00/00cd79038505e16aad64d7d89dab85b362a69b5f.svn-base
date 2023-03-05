@@ -1,0 +1,30 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ShotGun : WeaponBehaviour
+{
+    // Start is called before the first frame update
+    protected override void InitWeapon()
+    {
+        base.InitWeapon();
+        iWP_handle = new IShotGun();
+        iWP_handle.InitHandle(this);
+    }
+}
+public class IShotGun : IWeaponHandle
+{
+    private ShotGun shotGun_Behaviour;
+    public void FireHandle()
+    {
+    }
+
+    public void InitHandle(WeaponBehaviour weapon)
+    {
+        shotGun_Behaviour = (ShotGun)weapon;
+    }
+
+    public void ReloadHandle()
+    {
+    }
+}

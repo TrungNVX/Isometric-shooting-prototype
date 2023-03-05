@@ -1,0 +1,94 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[Serializable]
+public class ConfigWeaponRecord
+{
+    //id	weapon_id	wp_name	description		damage	clip_size
+    [SerializeField]
+    private int id;
+    [SerializeField]
+    private string weapon_id;
+    public string Weapon_id
+    {
+        get
+        {
+            return weapon_id;
+        }
+    }
+    [SerializeField]
+    private string wp_name;
+    public string Wp_name
+    {
+        get
+        {
+            return wp_name;
+        }
+    }
+    [SerializeField]
+    private string description;
+    public string Description
+    {
+        get
+        {
+            return description;
+        }
+    }
+    [SerializeField]
+    private int damage;
+    public int Damage
+    {
+        get
+        {
+            return damage;
+        }
+    }
+    [SerializeField]
+    private int clip_size;
+    public int Clip_size
+    {
+        get
+        {
+            return clip_size;
+        }
+    }
+    [SerializeField]
+    private float rof;
+    public float Rof
+    {
+        get
+        {
+            return rof;
+        }
+    }
+    [SerializeField]
+    private float reloadTime;
+    public float ReloadTime
+    {
+        get
+        {
+            return reloadTime;
+        }
+    }
+    [SerializeField]
+    private float accuracy;
+    public float Accuracy
+    {
+        get
+        {
+            return accuracy;
+        }
+    }
+
+
+}
+public class ConfigWeapon : BYDataTable<ConfigWeaponRecord>
+{
+    public override ConfigCompare<ConfigWeaponRecord> DefineCompare()
+    {
+        ConfigCompare<ConfigWeaponRecord> configCompare = new ConfigCompare<ConfigWeaponRecord>("weapon_id");
+        return configCompare;
+    }
+}

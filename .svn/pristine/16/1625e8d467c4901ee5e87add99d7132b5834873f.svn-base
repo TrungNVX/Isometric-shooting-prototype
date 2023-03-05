@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MissionCollect : MissionControl
+{
+    private int total_item;
+    private int count;
+    // Start is called before the first frame update
+    public override void OnInit()
+    {
+        base.OnInit();
+        count = 0;
+        GameObject go_item_control = Instantiate(Resources.Load("Mission/MissionCollect/" + configMission.Mission_ID, typeof(GameObject))) as GameObject;
+        foreach(MissionCollectItem e in go_item_control.GetComponent<MissionCollectItemControl>().items)
+        {
+            e.missionCollect = this;
+            total_item++;
+        }
+    }
+    public void CollectItem(MissionCollectItem item)
+    {
+        count++;
+        if(count>=total_item)
+        {
+            DialogManager.instance.ShowDialog(DialogIndex.VictoryDialog);
+        }
+    }
+}

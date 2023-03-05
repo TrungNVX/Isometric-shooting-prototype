@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ShotGun : WeaponBehaviour
+{
+    // Start is called before the first frame update
+    protected override void InitWeapon()
+    {
+        base.InitWeapon();
+        iWP_handle = new IShotGun();
+        iWP_handle.InitHandle(this);
+    }
+    IEnumerator Reloading()
+    {
+        databinding.Reload = true;
+
+        yield return new WaitForSeconds(reloadTime);
+        EndReload();
+    }
+}
+public class IShotGun : IWeaponHandle
+{
+    private ShotGun wp_Behaviour;
+
+    public void FireHandle()
+    {
+        wp_Behaviour.databinding.isFire = true;
+    }
+
+    public void InitHandle(WeaponBehaviour weapon)
+    {
+        wp_Behaviour = (ShotGun)weapon;
+    }
+
+    public void ReloadHandle()
+    {
+        wp_Behaviour.StartCoroutine("Reloading");
+    }
+}

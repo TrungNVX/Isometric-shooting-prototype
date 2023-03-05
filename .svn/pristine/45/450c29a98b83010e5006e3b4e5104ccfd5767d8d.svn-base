@@ -1,0 +1,130 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public enum GunType
+{
+    ASSAULT=1,
+    HAND_GUN=2,
+    SMG=3,
+    MACHINE=4,
+    SHOTGUN=5,
+    SNIPER=6
+}
+[Serializable]
+public class ConfigWeaponRecord
+{
+    //id	weapon_id	wp_name	description		damage	clip_size
+    [SerializeField]
+    private int id;
+    [SerializeField]
+    private string weapon_id;
+    public string Weapon_id
+    {
+        get
+        {
+            return weapon_id;
+        }
+    }
+    [SerializeField]
+    private string wp_name;
+    public string Wp_name
+    {
+        get
+        {
+            return wp_name;
+        }
+    }
+    [SerializeField]
+    private string description;
+    public string Description
+    {
+        get
+        {
+            return description;
+        }
+    }
+    [SerializeField]
+    private GunType Gun_type;
+    public GunType Gun_Type
+    {
+        get
+        {
+            return Gun_type;
+        }
+    }
+
+    [SerializeField]
+    private int damage;
+    public int Damage
+    {
+        get
+        {
+            return damage;
+        }
+    }
+    [SerializeField]
+    private int clip_size;
+    public int Clip_size
+    {
+        get
+        {
+            return clip_size;
+        }
+    }
+    [SerializeField]
+    private float rof;
+    public float Rof
+    {
+        get
+        {
+            return rof;
+        }
+    }
+    [SerializeField]
+    private float reloadTime;
+    public float ReloadTime
+    {
+        get
+        {
+            return reloadTime;
+        }
+    }
+    [SerializeField]
+    private float accuracy;
+    public float Accuracy
+    {
+        get
+        {
+            return accuracy;
+        }
+    }
+    [SerializeField]
+    private int price;
+    public int Price
+    {
+        get
+        {
+            return price;
+        }
+    }
+
+}
+public class ConfigWeapon : BYDataTable<ConfigWeaponRecord>
+{
+    public override ConfigCompare<ConfigWeaponRecord> DefineCompare()
+    {
+        ConfigCompare<ConfigWeaponRecord> configCompare = new ConfigCompare<ConfigWeaponRecord>("weapon_id");
+        return configCompare;
+    }
+    public List<ConfigWeaponRecord> GetWeaponSort()
+    {
+        return records.OrderBy(x => x.Gun_Type).ToList();
+    }
+    public List<ConfigWeaponRecord> GetWeaponByType(GunType gun_type)
+    {
+        return records.Where(x => x.Gun_Type== gun_type).ToList();
+    }
+}

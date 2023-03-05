@@ -1,0 +1,72 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WeaponData
+{
+    public ConfigWeaponRecord cf;
+}
+public  class WeaponBehaviour : MonoBehaviour
+{
+    public IWeaponHandle iWP_handle;
+    public AnimatorOverrideController overrideController;
+    // rate of fire
+    public float rof;
+    public int clip_size;
+    public float accuracy;
+    public float reloadTime;
+    
+    public int numberBullet;
+    private float timeFire;
+    public bool isFire;
+    public bool isReloading;
+    public TPS_Iso_Databinding databinding;
+    public void Init(WeaponData weaponData)
+    {
+        databinding = gameObject.GetComponentInParent<TPS_Iso_Databinding>();
+        rof = weaponData.cf.Rof;
+        accuracy = weaponData.cf.Accuracy;
+        reloadTime = weaponData.cf.ReloadTime;
+        clip_size = weaponData.cf.Clip_size;
+        numberBullet = clip_size;
+        isReloading = false;
+        InitWeapon();
+    }
+    // Start is called before the first frame update
+    protected virtual void InitWeapon()
+    {
+
+    }
+    public void OnFire(bool isFire)
+    {
+        this.isFire = isFire;
+    }
+    private void Update()
+    {
+        timeFire += Time.deltaTime;
+        if(isFire)
+        {
+            if(timeFire>=rof&&numberBullet>0&&!isReloading)
+            {
+                timeFire = 0;
+                numberBullet--;
+                iWP_handle.FireHandle();
+                if(numberBullet<=0)
+                {
+                    Invoke("OnReload",rof) ;
+                }
+
+            }
+        }
+    }
+    public void SetActiveGun()
+    {
+        //  
+        databinding.ChangeAnimatorControler(overrideController);
+    }
+
+    private void OnReload()
+    {
+        iWP_handle.ReloadHandle();
+    }
+}

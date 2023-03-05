@@ -1,0 +1,105 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class GunInfoDialog : BaseDialog
+{
+    public Text gunname_lb;
+    public Text gunSlot_lb;
+    public Image iconGun;
+    public Button btn_Buy;
+    public Button btn_equip;
+    public Button btn_upgrade;
+    public Text lev_lb;
+    private bool isEquip;
+    public Text gunprice_lb;
+    public Text gunUpgradeCost_lb;
+    private GunInfoDialogParam d_param;
+
+    
+    // Start is called before the first frame update
+    public override void Setup(DialogParam dialogParam)
+    {
+
+        d_param = (GunInfoDialogParam)dialogParam;
+      
+        gunname_lb.text = d_param.cf.Wp_name;
+        iconGun.overrideSprite = SpriteLiblaryControl.instance.GetSprirteByName(d_param.cf.Wp_name);
+        
+        // gun info;
+        SetGunStats();
+    }
+    public override void OnShowDialog()
+    {
+        base.OnShowDialog();
+        DataTrigger.RegisterValueChange(DataPath.INFO, SetGunStats);
+        DataTrigger.RegisterValueChange(DataPath.DIC_GUN+"/"+d_param.cf.Weapon_id, SetGunStats);
+    }
+    public override void OnHideDialog()
+    {
+        base.OnHideDialog();
+        DataTrigger.UnRegisterValueChange(DataPath.INFO, SetGunStats);
+        DataTrigger.UnRegisterValueChange(DataPath.DIC_GUN + "/" + d_param.cf.Weapon_id, SetGunStats);
+    }
+    private void SetGunStats(object data=null)
+    {
+        PlayerInfo playerInfo = DataAPIController.instance.GetInfo();
+        if (d_param.cf.Weapon_id.CompareTo(playerInfo.gun_slot_1) == 0)
+        {
+            gunSlot_lb.text = GameConfig.Gun_Slot_1;
+            isEquip = true;
+        }
+        else if (d_param.cf.Weapon_id.CompareTo(playerInfo.gun_slot_2) == 0)
+        {
+            gunSlot_lb.text = GameConfig.Gun_Slot_2;
+            isEquip = true;
+        }
+        else
+        {
+            gunSlot_lb.text = string.Empty;
+            isEquip = false;
+        }
+        ItemData gundata = DataAPIController.instance.GetGunData(d_param.cf.Weapon_id);
+        btn_Buy.gameObject.SetActive(gundata==null);
+        btn_upgrade.gameObject.SetActive(gundata != null);
+        btn_equip.gameObject.SetActive(gundata != null);
+
+        int gold = DataAPIController.instance.GetGold();
+        int gem = DataAPIController.instance.GetGem();
+        gunprice_lb.text = d_param.cf.Price.ToString();
+        if (gundata==null)
+        {
+            lev_lb.text = string.Empty;
+            btn_Buy.interactable = d_param.cf.Price <= gem;
+        }
+        else
+        {
+            lev_lb.text = "Level "+gundata.level.ToString() ;
+            //btn_Buy.gameObject.SetActive(false);
+            btn_equip.gameObject.SetActive(!isEquip);
+        }
+    }
+    public void OnClose()
+    {
+        // DialogManager.instance.HideDialog(dialogIndex);
+        DialogManager.instance.HideDialog(DialogIndex.GunInfoDialog);
+    }
+    public void OnBuy()
+    {
+        DataAPIController.instance.BuyGun(d_param.cf, (res) =>
+        {
+            //
+        });
+    }
+    public void OnUpgrade()
+    {
+
+    }
+    public void OnEquip()
+    {
+        GunSelectEquipDialogParam param = new GunSelectEquipDialogParam { weapon_ID = d_param.cf.Weapon_id };
+
+        DialogManager.instance.ShowDialog(DialogIndex.GunSelectEquipDialog, param);
+    }
+}

@@ -1,0 +1,83 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FPS_WeaponBehaviour : MonoBehaviour
+{
+    public Vector3 localPos;
+    public Animator animController;
+    private Action callBackHide;
+    public float fov = 45;
+    public float fov_zoom = 25;
+    public int numBullet;
+    public bool isFire;
+    public bool isSemiAuto;
+    public float rof;
+    private float timeFire;
+    public float accuracy;
+    public float recoil;
+    public int clipsize;
+    // Start is called before the first frame update
+    void Start()
+    {
+        FPS_InputManager.OnFire += FPS_InputManager_OnFire;
+        FPS_InputManager.OnGrenade += FPS_InputManager_OnGrenade;
+    }
+
+    private void FPS_InputManager_OnGrenade(bool obj)
+    {
+     
+
+    }
+
+    private void FPS_InputManager_OnFire(bool obj)
+    {
+        isFire = obj;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+    public void OnHideGun(Action callBack)
+    {
+        callBackHide = callBack;
+        animController.Play("Hide", 0, 0);
+    }
+    public void OnHideAnimEnd()
+    {
+        callBackHide.Invoke();
+    }
+    public void OnShowGun()
+    {
+        if (FPS_InputManager.isZoom)
+        {
+            animController.Play("Aim", 0, 0);
+
+        }
+        else
+        {
+            animController.Play("Show", 0, 0);
+
+        }
+    }
+    public void ReloadWeapon()
+    {
+        FPS_InputManager.isZoom = false;
+        if (numBullet > 0)
+        {
+            animController.Play("Reload", 0, 0);
+        }
+        else
+        {
+
+            animController.Play("Reload_out_of_ammo", 0, 0);
+        }
+    }
+    public void EventReloadEnd()
+    {
+
+    }
+}

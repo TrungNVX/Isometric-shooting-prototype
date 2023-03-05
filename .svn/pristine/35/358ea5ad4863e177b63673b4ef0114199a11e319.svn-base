@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class MapView : BaseView
+{
+
+    public InputField input_Mission;
+    // Start is called before the first frame update
+    public override void Setup(ViewParam viewParam)
+    {
+
+    }
+    public override void OnHideView()
+    {
+       
+    }
+    public void OnPlay()
+    {
+        GameManager.instance.missionRecord = ConfigManager.instance.configMission.GetRecordByKeySearch(input_Mission.text);
+        LoadSceneManager.instance.LoadScene(GameManager.instance.missionRecord.Map, () =>
+        {
+
+            GameObject missionControl_ob = Instantiate(Resources.Load("Mission/" + GameManager.instance.missionRecord.Mission_Type.ToString(),
+                typeof(GameObject))) as GameObject;
+            
+            ViewManager.instance.SwitchView(ViewIndex.EmptyView);
+        });
+    }
+}

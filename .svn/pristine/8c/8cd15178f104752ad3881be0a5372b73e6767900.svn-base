@@ -1,0 +1,54 @@
+using RootMotion.Dynamics;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Boss_Control : EnemyControl
+{
+    // Start is called before the first frame update
+    public Boss_DataBinding dataBinding;
+    public BossCallState callState;
+    public BossIdleState idleState;
+    public BossDeadState deadState;
+    public BossJumpState jumpState;
+    public override void Setup(EnemyDataInit enemyDataInit)
+    {
+        base.Setup(enemyDataInit);
+        player_target = GameObject.FindGameObjectWithTag("Player").transform;
+        m_agent.updateRotation = false;
+        callState.parent = this;
+        idleState.parent = this;
+        deadState.parent = this;
+        jumpState.parent = this;
+        GotoState(idleState);
+    }
+    public override void OnDamage(BulletPlayerData bulletPlayer)
+    {
+        hp -= bulletPlayer.damage;
+
+        if (hp <= 0)
+        {
+            if (CurrentState != deadState)
+            {
+                GotoState(deadState);
+                Rigidbody rig = bulletPlayer.rigidbody_;
+                if (rig != null)
+                {
+                    Vector3 force = 10 * bulletPlayer.force * bulletPlayer.dir;
+
+                    var broadcaster = rig.GetComponent<MuscleCollisionBroadcaster>();
+
+                    if (broadcaster != null)
+                    {
+                        broadcaster.Hit(2, force, bulletPlayer.point);
+
+
+                    }
+                }
+
+            }
+        }
+        base.OnDamage(bulletPlayer);
+
+    }
+}

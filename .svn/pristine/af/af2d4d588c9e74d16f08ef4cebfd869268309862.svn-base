@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+[Serializable]
+public class ZN_DeadState : FSM_State
+{
+    [NonSerialized]
+    public ZombieNormalControl parent;
+    // Start is called before the first frame update
+    public override void OnEnter()
+    {
+        base.OnEnter();
+      //  parent.m_agent.isStopped = true;
+
+        parent.m_agent.enabled = false;
+        parent.databinding.Dead = true;
+        parent.databinding.DeadIndex = UnityEngine.Random.Range(1, 5);
+    }
+    public override void OnAnimationExist()
+    {
+        base.OnAnimationExist();
+    }
+    public override void OnAnimationMiddle()
+    {
+        Debug.LogError(" dead anim done");
+    }
+
+}
+

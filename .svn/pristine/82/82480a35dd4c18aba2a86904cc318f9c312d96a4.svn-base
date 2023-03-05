@@ -1,0 +1,16 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DataAPIController : BYSingleton<DataAPIController>
+{
+    [SerializeField]
+    private DataLocalModel dataModel;
+    // Start is called before the first frame update
+    public void InitData(Action callBack)
+    {
+        dataModel.CreateData(callBack);
+
+    }
+}

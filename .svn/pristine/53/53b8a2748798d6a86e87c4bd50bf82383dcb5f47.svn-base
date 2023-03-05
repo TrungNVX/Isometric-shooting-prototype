@@ -1,0 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DataPath 
+{
+    public static string INFO = "info";
+    public static string NAME = "info/name";
+    public static string GUN_1 = "info/gun_slot_1";
+    public static string GUN_2 = "info/gun_slot_2";
+    public static string INVENTORY = "inventory";
+    public static string GOLD = "inventory/gold";
+    public static string DIC_GUN = "inventory/weapons";
+}

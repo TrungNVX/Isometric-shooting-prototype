@@ -1,0 +1,51 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DataAPIController : BYSingleton<DataAPIController>
+{
+    [SerializeField]
+    private DataLocalModel dataModel;
+    // Start is called before the first frame update
+    public void InitData(Action callBack)
+    {
+        dataModel.CreateData(callBack);
+
+    }
+    public PlayerInfo GetInfo()
+    {
+        return dataModel.Read<PlayerInfo>(DataPath.INFO);
+    }
+    
+    public int GetGold()
+    {
+        return dataModel.Read<int>(DataPath.GOLD);
+    }
+    public void AddGold(int num)
+    {
+        int gold = dataModel.Read<int>(DataPath.GOLD);
+        gold += num;
+        dataModel.UpdateData(DataPath.GOLD, gold, null);
+    }
+    public int GetGem()
+    {
+        return dataModel.Read<int>(DataPath.GEM);
+    }
+    public void AddGem(int num)
+    {
+        int gold = dataModel.Read<int>(DataPath.GEM);
+        gold += num;
+        dataModel.UpdateData(DataPath.GEM, gold, null);
+    }
+    public ItemData GetGunData(string id_gun)
+    {
+        return dataModel.ReadKey<ItemData>(DataPath.DIC_GUN, id_gun);
+    }
+    public void UpdateGun(string id_gun)
+    {
+        ItemData gundata = dataModel.ReadKey<ItemData>(DataPath.DIC_GUN, id_gun);
+        gundata.level++;
+        dataModel.UpdateDataKey<ItemData>(DataPath.DIC_GUN, id_gun, gundata, null);
+    }
+}

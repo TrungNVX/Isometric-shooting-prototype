@@ -1,0 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WeaponData
+{
+    public ConfigWeaponRecord cf;
+}
+public  class WeaponBehaviour : MonoBehaviour
+{
+    public IWeaponHandle iWP_handle;
+    public AnimatorOverrideController overrideController;
+    public void Init(WeaponData weaponData)
+    {
+        InitWeapon();
+    }
+    // Start is called before the first frame update
+    protected virtual void InitWeapon()
+    {
+
+    }
+    public void SetActiveGun(TPS_Iso_Databinding databinding)
+    {
+
+    }
+}

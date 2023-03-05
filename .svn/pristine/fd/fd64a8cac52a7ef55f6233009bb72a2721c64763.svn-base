@@ -1,0 +1,22 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FPS_CharacterDataBinding : MonoBehaviour
+{
+    public Animator animator;
+    public bool IsAim
+    {
+        set
+        {
+            if(value)
+            {
+                animator.Play("Aim_in", 0, 0);
+            }
+            else
+            {
+                animator.Play("Aim_out", 0, 0);
+            }
+        }
+    }
+}

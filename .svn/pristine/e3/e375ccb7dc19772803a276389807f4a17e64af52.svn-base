@@ -1,0 +1,26 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[Serializable]
+public class ConfigWeaponRecord
+{
+    //id	weapon_id	wp_name	description		damage	clip_size
+    public int id;
+    public string weapon_id;
+    public string wp_name;
+    public string description;
+    public int damage;
+    public int clip_size;
+
+
+}
+public class ConfigWeapon : BYDataTable<ConfigWeaponRecord>
+{
+    public override ConfigCompare<ConfigWeaponRecord> DefineCompare()
+    {
+        ConfigCompare<ConfigWeaponRecord> configCompare = new ConfigCompare<ConfigWeaponRecord>("weapon_id");
+        return configCompare;
+    }
+}

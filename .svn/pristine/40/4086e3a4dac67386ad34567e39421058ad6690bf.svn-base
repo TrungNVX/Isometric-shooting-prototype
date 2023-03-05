@@ -1,0 +1,30 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public enum DialogIndex
+{
+    CardInfoDialog = 0,
+    MessageDialog = 1,
+}
+public class DialogConfig
+{
+    public static DialogIndex[] dialogIndices =
+    {
+        DialogIndex.CardInfoDialog,
+        DialogIndex.MessageDialog,
+    };
+}
+public class DialogParam
+{
+
+}
+public class CardInfoDialogParam : DialogParam
+{
+    public int index;
+}
+public class MessageDialogParam : DialogParam
+{
+    public string mess;
+}

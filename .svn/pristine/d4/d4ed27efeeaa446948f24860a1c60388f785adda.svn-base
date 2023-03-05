@@ -1,0 +1,15 @@
+id	weapon_id	wp_name	description	Gun_type	damage	clip_size	rof	reloadTime	accuracy
+1	W_001	AK 47	AK 47	1	20	24	0.3	2	50
+2	W_002	AK SU	AK SU	1	22	30	0.25	3	55
+3	W_003	Deserteagle	Deserteagle	2	10	12	0.3	2	45
+4	W_004	Fal	Fal	1	20	30	0.3	3	40
+5	W_005	G36	G36	1	22	32	0.2	2	30
+6	W_006	Glock	Glock	2	7	12	0.3	4	65
+7	W_007	Mac10	Mac10	3	10	40	0.15	2	67
+8	W_008	MP 5k	MP 5k	3	8	45	0.15	2	56
+9	W_009	PKM	PKM	4	10	100	0.2	5	45
+10	W_010	RPG	RPG	4	50	1	1.0	4	30
+11	W_011	SPAS	SPAS	5	8	8	1.0	2	49
+12	W_012	SSG 3000	SSG 3000	6	50	5	1.0	1	80
+13	W_013	SVD	SVD	6	55	10	1.0	2	90
+14	W_014	Uzi	Uzi	3	7	50	0.12	3	45

@@ -1,0 +1,8 @@
+id	shop_id      	name	description	type	value	cost
+1	Shop_001	tiny gold	tiny gold	1	100	0.99
+2	Shop_002	Samll gold	Samll gold	1	350	2.99
+3	Shop_003	Mini Bag	Mini Bag	1	700	5.99
+4	Shop_004	Big bag	Big bag	1	1200	9.99
+5	Shop_005	Small Gem	Small Gem	2	200	0.99
+6	Shop_006	Bag Gem	Bag Gem	2	500	3.99
+7	Shop_007	Large Gem	Large Gem	2	1500	4.99

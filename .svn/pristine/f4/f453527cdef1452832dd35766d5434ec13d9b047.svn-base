@@ -1,0 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+public class FPS_InputManager : MonoBehaviour
+{
+    public static Vector3 moveDir;
+    public static Vector3 deltaMouse;
+    private Vector3 previous_point;
+    public static event Action<bool> OnZoom;
+    private static bool isZoom;
+    public static bool isRun;
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+    public static void Zoom()
+    {
+        isZoom = !isZoom;
+        OnZoom?.Invoke(isZoom);
+
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+        moveDir = new Vector3(x, 0, z);
+        // 
+        deltaMouse = Vector3.zero;
+        if(Input.GetMouseButtonDown(0))
+        {
+            previous_point = Input.mousePosition;
+        }
+        else if(Input.GetMouseButton(0))
+        {
+            deltaMouse = Input.mousePosition - previous_point;
+            previous_point = Input.mousePosition;
+        }
+        else
+        {
+            previous_point = Vector3.zero;
+        }
+        // zoom
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            Zoom();
+        }
+        // run
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isRun = true;
+        }
+        else
+        {
+            isRun = false;
+        }
+    }
+}

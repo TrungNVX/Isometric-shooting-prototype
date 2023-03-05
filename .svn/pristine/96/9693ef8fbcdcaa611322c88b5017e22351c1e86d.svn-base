@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BulletPlayer : MonoBehaviour
+{
+    public string namePool;
+    // Start is called before the first frame update
+    public void OnSpawned()
+    {
+
+     
+        StartCoroutine("DelayDisable");
+    }
+    IEnumerator DelayDisable()
+    {
+        yield return new WaitForSeconds(2);
+        BYPoolManager.instance.DeSpawn(namePool, transform);
+    }
+}

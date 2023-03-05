@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d941ecd14a3274d987a8394308df8e, type: 3}
+  m_Name: ConfigMission
+  m_EditorClassIdentifier: 
+  records:
+  - id: 1
+    mission_id: M_001
+    mission_name: Still Alive
+    description: Still Alive
+    missionType: 2
+    waves: W_001:1;W_002:2
+    reward: 20
+    map: Ingame Night
+  - id: 2
+    mission_id: M_002
+    mission_name: Kill All
+    description: Kill All
+    missionType: 1
+    waves: W_001:1;W_003:2:W_004:3
+    reward: 20
+    map: Ingame
+  - id: 3
+    mission_id: M_003
+    mission_name: Shoot em up
+    description: Shoot em up
+    missionType: 2
+    waves: W_001:1;W_004:2:W_005:1
+    reward: 20
+    map: Ingame Night

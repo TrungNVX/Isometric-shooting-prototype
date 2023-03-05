@@ -1,0 +1,22 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Boss_Control : EnemyControl
+{
+    // Start is called before the first frame update
+    public Boss_DataBinding dataBinding;
+    public BossCallState callState;
+    public BossIdleState idleState;
+    public BossDeadState deadState;
+    public BossJumpState jumpState;
+    public override void Setup(EnemyDataInit enemyDataInit)
+    {
+        base.Setup(enemyDataInit);
+        callState.parent = this;
+        idleState.parent = this;
+        deadState.parent = this;
+        jumpState.parent = this;
+        GotoState(idleState);
+    }
+}

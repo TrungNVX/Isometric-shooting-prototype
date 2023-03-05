@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class HandGun : WeaponBehaviour
+{
+    protected override void InitWeapon()
+    {
+        base.InitWeapon();
+        iWP_handle = new IHandGun();
+        iWP_handle.InitHandle(this);
+    }
+}
+public class IHandGun : IWeaponHandle
+{
+    private HandGun wp_Behaviour;
+    public void FireHandle()
+    {
+    }
+
+    public void InitHandle(WeaponBehaviour weapon)
+    {
+        wp_Behaviour = (HandGun)weapon;
+    }
+
+    public void ReloadHandle()
+    {
+    }
+}

@@ -1,0 +1,80 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class MissionControl : BYSingleton<MissionControl>
+{
+    public ConfigMissionRecord configMission;
+    public List<WaveInit> wave_data_inits;
+    private int waveIndex;
+    public ConfigWaveRecord cf_CurrentWave;
+    private int count_enemy = 0;
+    private int total_enemy;
+    // Start is called before the first frame update
+    IEnumerator Start()
+    {
+        yield return new WaitForSeconds(1);
+        configMission = GameManager.instance.missionRecord;
+        wave_data_inits = configMission.Waves;
+
+        waveIndex = -1;
+        OnInit();
+        yield return new WaitForSeconds(1);
+        StartCoroutine("CreateNewWave");
+    }
+    public virtual void OnInit()
+    {
+
+    }
+    IEnumerator CreateNewWave()
+    {
+        waveIndex++;
+        if(waveIndex>=wave_data_inits.Count)
+        {
+            // Victory
+            OnEndWave();
+        }
+        else
+        {
+            yield return new WaitForSeconds(wave_data_inits[waveIndex].delay);
+         
+            cf_CurrentWave = ConfigManager.instance.configWave.GetRecordByKeySearch(wave_data_inits[waveIndex].wave_ID);
+            List<string> enemy_ids= cf_CurrentWave.Enemies_id;
+            count_enemy = 0;
+            total_enemy = cf_CurrentWave.Number;
+            for(int i=0;i<cf_CurrentWave.Number;i++)
+            {
+                CreateEnemy(enemy_ids.OrderBy(x => Guid.NewGuid()).FirstOrDefault());
+            }
+        }
+    }
+    private void CreateEnemy(string enemy_ID)
+    {
+        ConfigEnemyRecord cf_enemy = ConfigManager.instance.configEnemy.GetRecordByKeySearch(enemy_ID);
+        GameObject go_enemy = Instantiate(Resources.Load("Enemy/" + cf_enemy.Enemy_ID, typeof(GameObject))) as GameObject;
+        //
+        Transform point_trans = SceneConfig.instance.GetRandomPointES();
+
+        go_enemy.transform.position = point_trans.position;
+
+        EnemyControl enemyControl = go_enemy.GetComponent<EnemyControl>();
+        enemyControl.Setup(new EnemyDataInit { config = cf_enemy });
+    }
+    public  void OnEnemyDead( EnemyControl enemyControl)
+    {
+        count_enemy++;
+        if(count_enemy>=total_enemy)
+        {
+            
+            StopCoroutine("CreateNewWave");
+            StartCoroutine("CreateNewWave");
+        }
+    }
+    public virtual void OnEndWave()
+    {
+
+    }
+   
+}

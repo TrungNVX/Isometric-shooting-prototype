@@ -1,0 +1,86 @@
+using RootMotion.Dynamics;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CreepDataBinding : MonoBehaviour
+{
+    public Animator animator;
+    public bool isDeadRagDoll;
+    public PuppetMaster puppetMaster;
+    public PuppetMaster.StateSettings deadState = PuppetMaster.StateSettings.Default;
+    public float Speed
+    {
+        set
+        {
+            animator.SetFloat(Anim_K_Speed, value);
+        }
+    }
+    public bool Attack
+    {
+        set
+        {
+            if (value)
+            {
+                animator.SetTrigger(Anim_K_Attack);
+
+            }
+        }
+    }
+    public int AttackIndex
+    {
+        set
+        {
+            animator.SetInteger(Anim_K_AttackIndex, value);
+        }
+    }
+    public bool Dead
+    {
+        set
+        {
+            if (isDeadRagDoll)
+            {
+                puppetMaster.mode = PuppetMaster.Mode.Active;
+                puppetMaster.Kill(deadState);
+            }
+            else
+            {
+                if (value)
+                    animator.SetTrigger(Anim_K_Dead);
+            }
+
+        }
+    }
+    public int DeadIndex
+    {
+        set
+        {
+            animator.SetInteger(Anim_K_DeadIndex, value);
+        }
+    }
+    public bool Scream
+    {
+        set
+        {
+            if (value)
+                animator.SetTrigger(Anim_K_Scream);
+        }
+    }
+    private int Anim_K_Speed;
+    private int Anim_K_Attack;
+    private int Anim_K_AttackIndex;
+    private int Anim_K_Dead;
+    private int Anim_K_DeadIndex;
+    private int Anim_K_Scream;
+    // Start is called before the first frame update
+    void Start()
+    {
+        Anim_K_Speed = Animator.StringToHash("Speed");
+        Anim_K_Attack = Animator.StringToHash("Attack");
+        Anim_K_AttackIndex = Animator.StringToHash("AttackIndex");
+        Anim_K_Dead = Animator.StringToHash("Dead");
+        Anim_K_DeadIndex = Animator.StringToHash("DeadIndex");
+        Anim_K_Scream = Animator.StringToHash("Scream");
+
+    }
+}

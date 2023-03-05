@@ -1,0 +1,81 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BulletPlayerData
+{
+    public Vector3 dir;
+    public float force;
+    public int damage;
+    public ConfigWeaponRecord cf;
+    public Rigidbody rigidbody_;
+    public BodyType bodyType;
+    public Vector3 point;
+}
+public class BulletPlayer : MonoBehaviour
+{
+    public string namePool;
+    public string namePool_impact;
+    private Transform trans;
+    public Rigidbody rigidbody_;
+    public LayerMask mask;
+    private bool isFly = false;
+    private Vector3 force;
+    private BulletPlayerData data;
+    private void Awake()
+    {
+        trans = transform;
+    }
+    public void Setup(BulletPlayerData bulletPlayerData)
+    {
+        this.data = bulletPlayerData;
+
+        trans.forward = bulletPlayerData.dir;
+        force = bulletPlayerData.dir * bulletPlayerData.force;
+        rigidbody_.AddForce(force);
+    }
+    // Start is called before the first frame update
+    public void OnSpawned()
+    {
+
+        isFly = true;
+        StartCoroutine("DelayDisable");
+    }
+    private void OnDeSpawned()
+    {
+        rigidbody_.velocity = Vector3.zero;
+    }
+    IEnumerator DelayDisable()
+    {
+        yield return new WaitForSeconds(4);
+        BYPoolManager.instance.DeSpawn(namePool, transform);
+    }
+    private void Update()
+    {
+        if (!isFly)
+            return;
+        // trans.Translate(Vector3.forward * Time.deltaTime * 10);
+        RaycastHit hit;
+        if (Physics.Raycast(trans.position, trans.forward, out hit, 0.5f, mask))
+        {
+            isFly = false;
+            Transform impact = BYPoolManager.instance.Spawn(namePool_impact);
+            impact.position = hit.point;
+            impact.forward = hit.normal;
+            data.point = hit.point;
+            data.dir = -hit.normal;
+            BYPoolManager.instance.DeSpawn(namePool, trans);
+            Rigidbody rig=hit.collider.gameObject.GetComponent<Rigidbody>();
+            if(rig!=null)
+            {
+               // rig.AddForceAtPosition(force, hit.point, ForceMode.Impulse);
+            }
+            EnemyOnDamage enemy = hit.collider.gameObject.GetComponent<EnemyOnDamage>();
+           if(enemy!=null)
+            {
+                enemy.OnDamage(data);
+            }
+
+        }
+    }
+}

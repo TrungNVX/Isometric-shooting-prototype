@@ -1,0 +1,47 @@
+using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DataLocalModel : MonoBehaviour
+{
+    private UserData userData;
+    // CRUD: create,read, update, delete
+    public void CreateData(Action callBack)
+    {
+        userData = LoadData();
+        if(userData!=null)
+        {
+            callBack();
+        }
+        else
+        {
+            // create 
+            userData = new UserData();
+            PlayerInfo info = new PlayerInfo();
+            userData.info = info;
+            PlayerInventory inventory = new PlayerInventory();
+            userData.inventory = inventory;
+            SaveData();
+            callBack();
+        }
+    }
+    private UserData LoadData()
+    {
+        if(PlayerPrefs.HasKey("DATA"))
+        {
+            string dataJson = PlayerPrefs.GetString("DATA");
+            return JsonConvert.DeserializeObject<UserData>(dataJson);
+        }
+        else
+        {
+            return null;
+        }
+    }
+    private void SaveData()
+    {
+        string dataJson = JsonConvert.SerializeObject(userData);
+        PlayerPrefs.SetString("DATA", dataJson);
+    }
+}

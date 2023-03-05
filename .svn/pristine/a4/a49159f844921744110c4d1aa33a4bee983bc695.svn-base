@@ -1,0 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FPS_CharacterControl : MonoBehaviour
+{
+    public FPS_CharacterDataBinding dataBinding;
+    public float speed=1;
+    public CharacterController characterController_;
+    public Transform camera_trans;
+    private bool isAim_;
+    public bool isAim
+    {
+        set
+        {
+            isAim_ = value;
+            dataBinding.IsAim = value;
+        }
+        get
+        {
+            return isAim_;
+        }
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        FPS_InputManager.OnZoom += FPS_InputManager_OnZoom;
+    }
+
+    private void FPS_InputManager_OnZoom(bool obj)
+    {
+        isAim = obj;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float y = 0;
+        if(!characterController_.isGrounded)
+        {
+            y = -1;
+        }
+
+        Vector3 dirMove = FPS_InputManager.moveDir;
+        dirMove = camera_trans.TransformDirection(dirMove);
+        dirMove.y = y;
+        characterController_.Move(dirMove * Time.deltaTime * speed);
+    }
+}

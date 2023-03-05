@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FPS_CameraControl : MonoBehaviour
+{
+    private float horizontal;
+    public float h_sensity = 0.1f;
+    private float vertical;
+    public float v_sensity = 0.1f;
+    public float speed = 5;
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void LateUpdate()
+    {
+        Vector3 delta = FPS_InputManager.deltaMouse;
+        horizontal = Mathf.Lerp(horizontal, horizontal + delta.x * h_sensity, Time.deltaTime * speed);
+        vertical = Mathf.Lerp(vertical, vertical - delta.y * v_sensity, Time.deltaTime * speed);
+
+        Quaternion q = Quaternion.Euler(vertical, horizontal, 0);
+        transform.localRotation = q;
+    }
+}

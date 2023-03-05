@@ -1,0 +1,26 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[Serializable]
+public class ConfigEnemyRecord
+{
+    //id	enemy_id	enemy_name	description		hp	damage
+    public int id;
+    public string enemy_id;
+    public string enemy_name;
+    public string description;
+    public int hp;
+    public int damage;
+}
+public class ConfigEnemy : BYDataTable<ConfigEnemyRecord>
+{
+    public override ConfigCompare<ConfigEnemyRecord> DefineCompare()
+    {
+        ConfigCompare<ConfigEnemyRecord> configCompare = new ConfigCompare<ConfigEnemyRecord>("enemy_id", "damage");
+        return configCompare;
+    }
+
+
+}

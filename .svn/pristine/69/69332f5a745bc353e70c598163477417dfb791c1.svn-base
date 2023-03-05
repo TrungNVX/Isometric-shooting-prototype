@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FSM_Animation : StateMachineBehaviour
+{
+    private FSM_System _System;
+    public float timeMiddle;
+    private float timeCount;
+    private bool isSendMiddle = false;
+
+    private void OnEnable()
+    {
+       
+    }
+
+    // Start is called before the first frame update
+    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (_System == null)
+            _System = animator.GetComponent<FSM_System>();
+        _System.BroadcastMessage("OnAnimationEnter",SendMessageOptions.DontRequireReceiver);
+        timeCount = 0;
+        isSendMiddle = false;
+    }
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (_System == null)
+            _System = animator.GetComponent<FSM_System>();
+        _System.BroadcastMessage("OnAnimationExist", SendMessageOptions.DontRequireReceiver);
+    }
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (_System == null)
+            _System = animator.GetComponent<FSM_System>();
+        _System.BroadcastMessage("OnAnimationUpdate", SendMessageOptions.DontRequireReceiver);
+        timeCount += Time.deltaTime;
+        if(timeCount>=timeMiddle&& !isSendMiddle)
+        {
+            isSendMiddle = true;
+            _System.BroadcastMessage("OnAnimationMiddle", SendMessageOptions.DontRequireReceiver);
+        }
+    }
+   
+}

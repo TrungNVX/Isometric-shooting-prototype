@@ -1,0 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+[Serializable]
+public class ZN_AttackState : FSM_State
+{
+    [NonSerialized]
+    public ZombieNormalControl parent;
+    // Start is called before the first frame update
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        parent.databinding.Attack = true;
+        parent.databinding.AttackIndex = UnityEngine.Random.Range(1, 4);
+        Debug.LogError(" attack");
+    }
+    public override void OnAnimationEnter()
+    {
+        Debug.LogError("OnAnimationEnter ");
+    }
+    public override void OnAnimationExist()
+    {
+        parent.GotoState(parent.chaseState);
+    }
+}

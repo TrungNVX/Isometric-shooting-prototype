@@ -1,0 +1,4 @@
+id	weapon_id	wp_name	description		damage	clip_size
+1	W_001	AK	Assault		20	24
+3	W_003	Shotgun	shoptgun		20	1
+2	W_002	!911	handgun		20	9

@@ -1,0 +1,91 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ZombieNormalControl : EnemyControl
+{
+    public ZombieNormalDatabinding databinding;
+    public ZN_AttackState attackState;
+    public ZN_ChaseState chaseState;
+    public ZN_DeadState deadState;
+    public ZN_WanderState wanderState;
+    public Vector3 ogrinalPos;
+         
+    // Start is called before the first frame update
+    public override void Setup(EnemyDataInit enemyDataInit)
+    {
+        base.Setup(enemyDataInit);
+        // 
+        player_target = GameObject.FindGameObjectWithTag("Player").transform;
+        m_agent.updateRotation = false;
+        ogrinalPos = trans.position;
+        attackState.parent = this;
+        chaseState.parent = this;
+        deadState.parent = this;
+        wanderState.parent = this;
+        GotoState(wanderState);
+        StartCoroutine("LoopDetect");
+    }
+    public override void Update()
+    {
+        base.Update();
+        attackTime += Time.deltaTime;
+    }
+    IEnumerator LoopDetect()
+    {
+        WaitForSeconds wait = new WaitForSeconds(0.25f);
+        while(hp > 0)
+        {
+            yield return wait;
+            //
+            float dis = Vector3.Distance(trans.position, player_target.position);
+            if(dis>rangeDetect)
+            {
+                    if (CurrentState != wanderState)
+                        GotoState(wanderState);
+            }
+            else
+            {
+               
+                if (dis <= attackrange)
+                {
+                    if (CurrentState != attackState)
+                    {
+                        if(attackTime>=attackSpeed)
+                        {
+                            GotoState(attackState);
+                            attackTime = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    Vector3 posPlayer = player_target.position;
+                    posPlayer.y = trans.position.y;
+                    Vector3 dir = posPlayer - trans.position;
+                    dir.Normalize();
+                    float dot = Vector3.Dot(dir, trans.forward);
+                    if (dot > 0)
+                    {
+                        if (CurrentState != chaseState)
+                            GotoState(chaseState);
+                    }
+                   
+                }
+
+            }
+        }
+    }
+    public override void OnDamage(BulletPlayerData bulletPlayer)
+    {
+        hp -= bulletPlayer.damage;
+      
+        if (hp<=0)
+        {
+            if(CurrentState!=deadState)
+            {
+                GotoState(deadState);
+            }
+        }
+    }
+}

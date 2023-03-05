@@ -1,0 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+[Serializable]
+public class ZN_AttackState : FSM_State
+{
+    [NonSerialized]
+    public ZombieNormalControl parent;
+    // Start is called before the first frame update
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        Debug.LogError("AttackState");
+    }
+}

@@ -1,0 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class CardInfoDialog : BaseDialog
+{
+    public Text info_lb;
+    private CardInfoDialogParam d_param;
+    // Start is called before the first frame update
+    public override void Setup(DialogParam dialogParam)
+    {
+
+        d_param = (CardInfoDialogParam)dialogParam;
+        info_lb.text = " card index: " + d_param.index.ToString();
+
+    }
+    public void OnClose()
+    {
+        // DialogManager.instance.HideDialog(dialogIndex);
+        DialogManager.instance.HideDialog(DialogIndex.CardInfoDialog);
+    }
+    public void OnBuy()
+    {
+        DialogManager.instance.ShowDialog(DialogIndex.MessageDialog, new MessageDialogParam { mess = "Not enough money to buy card index " +d_param.index.ToString()});
+    }
+}

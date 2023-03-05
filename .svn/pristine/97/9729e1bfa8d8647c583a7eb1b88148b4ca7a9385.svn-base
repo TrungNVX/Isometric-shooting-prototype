@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class WeaponViewItem : MonoBehaviour
+{
+    public Image iconGun;
+    public Text level_lb;
+    public Text nameGun_lb;
+    public Image gunType;
+    private ConfigWeaponRecord cfWeapon;
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    public void OnSetup(ConfigWeaponRecord cfWeapon)
+    {
+        this.cfWeapon = cfWeapon;
+        iconGun.overrideSprite = SpriteLiblaryControl.instance.GetSprirteByName(cfWeapon.Wp_name);
+        nameGun_lb.text = cfWeapon.Wp_name;
+        gunType.overrideSprite= SpriteLiblaryControl.instance.GetSprirteByName(cfWeapon.Gun_Type.ToString());
+    }
+    public void OnShowInfo()
+    {
+        GunInfoDialogParam param = new GunInfoDialogParam {cf=cfWeapon };
+        DialogManager.instance.ShowDialog(DialogIndex.GunInfoDialog,param);
+    }
+}
